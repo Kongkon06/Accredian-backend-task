@@ -65,7 +65,10 @@ User.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return;
     }
     catch (e) {
-        res.status(411).json({ msg: 'error' });
+        res.status(411).json({
+            msg: 'error',
+            error: e instanceof Error ? e.message : 'Unknown error'
+        });
     }
 }));
 User.post('/refferal', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

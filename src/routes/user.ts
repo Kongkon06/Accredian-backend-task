@@ -55,9 +55,12 @@ User.post('/signin',async (req, res) => {
             token:token
         })
         return;
-    }catch(e){
-        res.status(411).json({msg:'error'});
-    }
+    }catch (e) {
+      res.status(411).json({ 
+          msg: 'error', 
+          error: e instanceof Error ? e.message : 'Unknown error' 
+      });
+  }  
 })
 
 User.post('/refferal', async (req, res) => {
