@@ -8,7 +8,14 @@ const user_1 = __importDefault(require("./routes/user"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: [
+        "http://localhost:3000",
+        "https://accredian-backend-task-nfn9.onrender.com"
+    ],
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true, // Allows sending cookies if needed
+}));
 app.use('/api/Refer&Earn', user_1.default);
 app.get('/', (req, res) => {
     res.json({
