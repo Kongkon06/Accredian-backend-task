@@ -11,7 +11,7 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     origin: [
         "http://localhost:3000",
-        "https://accredian-backend-task-nfn9.onrender.com"
+        "https://accredian-frontend-task-orpin.vercel.app"
     ],
     methods: "GET,POST,PUT,DELETE",
     credentials: true, // Allows sending cookies if needed
