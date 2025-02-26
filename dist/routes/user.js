@@ -16,8 +16,8 @@ const client_1 = require("@prisma/client");
 const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = require("../config");
-const user = express_1.default.Router();
-user.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const User = express_1.default.Router();
+User.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         const prisma = new client_1.PrismaClient();
@@ -35,16 +35,17 @@ user.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (e) {
         res.status(411).json({
-            msg: "error while entering data"
+            msg: "error while entering data",
+            error: e.message
         });
     }
     return;
 }));
-user.post('/signin', (req, res) => {
+User.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         const prisma = new client_1.PrismaClient();
-        const user = prisma.user.findFirst({
+        const user = yield prisma.user.findFirst({
             where: {
                 email: data.email,
                 password: data.password
@@ -65,4 +66,29 @@ user.post('/signin', (req, res) => {
     catch (e) {
         res.status(411).json({ msg: 'error' });
     }
-});
+}));
+User.post('/refferal', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = req.body;
+        const prisma = new client_1.PrismaClient();
+        const auth = jsonwebtoken_1.default.verify(data.token, config_1.JWT_SCERET);
+        if (!auth) {
+            res.status(411).json({
+                msg: 'User not authenticated'
+            });
+        }
+        const refferer = yield prisma.refer.create({
+            data: {
+                name: data.name,
+                email: data.email
+            }
+        });
+        res.status(200).json(refferer);
+    }
+    catch (e) {
+        res.json({
+            msg: "error while entering the refferal"
+        });
+    }
+}));
+exports.default = User;
