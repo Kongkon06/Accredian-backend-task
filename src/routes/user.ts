@@ -22,8 +22,9 @@ User.post('/signup', async (req, res) => {
                 password: data.password
             }
         })
+        const token = jwt.sign({ userMail: data.email, referrerName: data.referrerName }, JWT_SCERET);
         res.json({
-            user
+            user,token
         })
     } catch (e:any) {
         res.status(411).json({

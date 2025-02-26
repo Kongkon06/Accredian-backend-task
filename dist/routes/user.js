@@ -30,8 +30,9 @@ User.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 password: data.password
             }
         });
+        const token = jsonwebtoken_1.default.sign({ userMail: data.email, referrerName: data.referrerName }, config_1.JWT_SCERET);
         res.json({
-            user
+            user, token
         });
     }
     catch (e) {
