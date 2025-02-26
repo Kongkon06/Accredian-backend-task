@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `User` MODIFY `ph_no` VARCHAR(191) NOT NULL;
